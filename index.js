@@ -50,6 +50,8 @@ const courses = [
 
 const app = express();
 
+app.use(express.json());
+
 app.get("/eduka/api/courses", (req, res) => {
   res.send(courses);
 });
@@ -67,6 +69,15 @@ app.get("/eduka/api/courses/:id", (req, res) => {
   }
 
   res.send(course);
+});
+
+app.post("/eduka/api/courses", (req, res) => {
+  courses.push({
+    id: courses.length + 1,
+    ...req.body,
+  });
+
+  res.send("Success!")
 });
 
 const port = 3000;
