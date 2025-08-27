@@ -3,7 +3,7 @@ const connectDB = require("./config/db");
 const colors = require("colors");
 //connectDB();
 
-const courses = [
+let courses = [
   {
     id: 1,
     title: "Course 1",
@@ -77,7 +77,27 @@ app.post("/eduka/api/courses", (req, res) => {
     ...req.body,
   });
 
-  res.send("Success!")
+  res.send("Success!");
+});
+
+app.put("/eduka/api/courses/:id", (req, res) => {
+  // extract id from  reques object
+
+  const id = +req.params.id;
+
+  // check f the course with the provide id exists
+  let course = courses.find((course) => course.id === id);
+
+  // if not exist return 404 request not found
+  if (!course) {
+    return res.status(404).send(`Course with id ${id} not found!`);
+  }
+  // otherwise update course
+  courses = courses.map((course) =>
+    course.id === id ? { ...course, ...req.body } : course
+  );
+
+  res.send("Success!");
 });
 
 const port = 3000;
