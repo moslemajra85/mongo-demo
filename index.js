@@ -5,36 +5,42 @@ const colors = require("colors");
 
 const courses = [
   {
+    id: 1,
     title: "Course 1",
     price: 10,
     releaseDate: new Date(2023, 1, 1),
     isPublished: true,
   },
   {
+    id: 2,
     title: "Course 2",
     price: 15,
     releaseDate: new Date(2023, 2, 1),
     isPublished: true,
   },
   {
+    id: 3,
     title: "Course 3",
     price: 20,
     releaseDate: new Date(2023, 3, 1),
     isPublished: false,
   },
   {
+    id: 4,
     title: "Course 4",
     price: 25,
     releaseDate: new Date(2023, 4, 1),
     isPublished: true,
   },
   {
+    id: 5,
     title: "Course 5",
     price: 30,
     releaseDate: new Date(2023, 5, 1),
     isPublished: false,
   },
   {
+    id: 6,
     title: "Course 6",
     price: 35,
     releaseDate: new Date(2023, 6, 1),
@@ -46,6 +52,21 @@ const app = express();
 
 app.get("/eduka/api/courses", (req, res) => {
   res.send(courses);
+});
+
+app.get("/eduka/api/courses/:id", (req, res) => {
+  // extract the id from the request object
+
+  const id = +req.params.id;
+  // check if there is a course with the provided id
+  const course = courses.find((course) => course.id === id);
+
+  // if course exist , we return the course
+  if (!course) {
+    return res.status(404).send(`Course with id ${id} not found!`);
+  }
+
+  res.send(course);
 });
 
 const port = 3000;
