@@ -100,6 +100,18 @@ app.put("/eduka/api/courses/:id", (req, res) => {
   res.send("Success!");
 });
 
+app.delete("/eduka/api/courses/:id", (req, res) => {
+  // look for the course
+
+  const course = courses.find((course) => course.id === +req.params.id);
+
+  if (!course) {
+    return res.status(404).send(`Course with id ${id} not found!`);
+  }
+
+  courses = courses.filter((course) => course.id !== +req.params.id);
+  res.send("Success!");
+});
 const port = 3000;
 
 app.listen(port, () => {
