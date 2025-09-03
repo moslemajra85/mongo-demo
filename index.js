@@ -2,12 +2,12 @@ require("dotenv").config();
 const express = require("express");
 const connectDB = require("./config/db");
 const colors = require("colors");
-const Course = require("./models/course");
+const courseRoutes = require("./routes/courseRoutes");
 connectDB();
 
 const app = express();
 
-;
+app.use("/eduka/api/courses", courseRoutes);
 const port = 3000;
 
 app.listen(port, () => {
