@@ -16,32 +16,32 @@ app.get("/eduka/api/courses", async (req, res) => {
     res.send(courses);
   } catch (error) {
     // handle error
-  res.send(error)
+    res.send(error);
   }
 });
 
-app.get("/eduka/api/courses/:id", (req, res) => {
+app.get("/eduka/api/courses/:id", async (req, res) => {
   // extract the id from the request object
+  try {
+    const id = req.params.id;
 
-  const id = +req.params.id;
-  // check if there is a course with the provided id
-  const course = courses.find((course) => course.id === id);
-
-  // if course exist , we return the course
-  if (!course) {
-    return res.status(404).send(`Course with id ${id} not found!`);
+    const course = await Course.findById(id);
+    if (!course) {
+      return res.status(404).send(`Course with id ${id} not found!`);
+    }
+    res.send(course);
+  } catch (error) {
+    res.send(error);
   }
-
-  res.send(course);
 });
 
-app.post("/eduka/api/courses", (req, res) => {
-  courses.push({
-    id: courses.length + 1,
-    ...req.body,
-  });
-
-  res.send("Success!");
+app.post("/eduka/api/courses", async (req, res) => {
+  try {
+    const course = await Course.insertOne(req.body);
+    req.send(course);
+  } catch (error) {
+    res.send(error);
+  }
 });
 
 app.put("/eduka/api/courses/:id", (req, res) => {
