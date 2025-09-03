@@ -3,9 +3,7 @@ const colors = require("colors");
 
 async function connectDB() {
   try {
-    await mongoose.connect(
-      "mongodb+srv://moslem2020:123moslem@cluster0.6hprc.mongodb.net/school"
-    );
+    await mongoose.connect(process.env.MONGO_URI);
 
     console.log("Connected to MongoDB...".green.bold);
   } catch (error) {

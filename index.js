@@ -1,59 +1,23 @@
+require("dotenv").config();
 const express = require("express");
 const connectDB = require("./config/db");
 const colors = require("colors");
-//connectDB();
-
-let courses = [
-  {
-    id: 1,
-    title: "Course 1",
-    price: 10,
-    releaseDate: new Date(2023, 1, 1),
-    isPublished: true,
-  },
-  {
-    id: 2,
-    title: "Course 2",
-    price: 15,
-    releaseDate: new Date(2023, 2, 1),
-    isPublished: true,
-  },
-  {
-    id: 3,
-    title: "Course 3",
-    price: 20,
-    releaseDate: new Date(2023, 3, 1),
-    isPublished: false,
-  },
-  {
-    id: 4,
-    title: "Course 4",
-    price: 25,
-    releaseDate: new Date(2023, 4, 1),
-    isPublished: true,
-  },
-  {
-    id: 5,
-    title: "Course 5",
-    price: 30,
-    releaseDate: new Date(2023, 5, 1),
-    isPublished: false,
-  },
-  {
-    id: 6,
-    title: "Course 6",
-    price: 35,
-    releaseDate: new Date(2023, 6, 1),
-    isPublished: true,
-  },
-];
+const Course = require("./models/course");
+connectDB();
 
 const app = express();
 
 app.use(express.json());
 
-app.get("/eduka/api/courses", (req, res) => {
-  res.send(courses);
+app.get("/eduka/api/courses", async (req, res) => {
+  try {
+    // talk to the database
+    const courses = await Course.find();
+    res.send(courses);
+  } catch (error) {
+    // handle error
+  res.send(error)
+  }
 });
 
 app.get("/eduka/api/courses/:id", (req, res) => {
