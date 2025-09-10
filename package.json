@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "seed:insert": "node seed.js insert",
+    "seed:destroy": "node seed.js destroy"
   },
   "keywords": [],
   "author": "",
